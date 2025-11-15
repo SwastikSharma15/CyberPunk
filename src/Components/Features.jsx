@@ -118,15 +118,15 @@ const Features = () => {
               isComingSoon
             />
           </BentoTilt>
-          <div className="bento-tilt_2">
+          <BentoTilt className="bento-tilt_2">
             <div className="flex size-full flex-col justify-between bg-violet-300 p-5">
               <h1 className="bento-title special-font">
                 M<b>o</b>re Co<b>m</b>ing So<b>o</b>n!
               </h1>
               <TiLocationArrow className="m-5 scale-[5] self-end" />
             </div>
-          </div>
-          <div className="bento-tilt_2 ">
+          </BentoTilt>
+          <BentoTilt className="bento-tilt_2 ">
             <video
               src="videos/feature-5.mp4"
               loop
@@ -134,7 +134,7 @@ const Features = () => {
               autoPlay
               className="size-full object-cover object-center"
             />
-          </div>
+          </BentoTilt>
         </div>
       </div>
     </section>
