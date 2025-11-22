@@ -30,20 +30,20 @@ const About = () => {
     <div id="about" className="min-h-screen w-screen ">
       <div className="relative mb-8 mt-36 flex flex-col items-center gap-5">
         <h2 className="font-general text-sm uppercase md:text-[10px]">
-          Welcome to Zentry
+          Welcome to Night City
         </h2>
         
         <AnimatedTitle
-          title="Disc<b>o</b>ver the world's <br /> largest shared <b>a</b>dventure"
+          title="<b>w</b>elco<b>m</b>e t<b>o</b> the <b>n</b>e<b>o</b>n b<b>a</b>ttlegroun<b>d</b> <br /> w<b>h</b>ere e<b>v</b>ery <b>u</b>pgra<b>d</b>e c<b>u</b>ts a little <b>d</b>eeper"
           containerClass="mt-5 !text-black text-center special-font"
         />
 
         <div className="about-subtext">
           <p>
-            The Game of Games begins-your life, now an epic MMORPG
+            She dreamed of the moon. He became the reason she still believed.
           </p>
           <p>
-            Zentry unite every player from countless games and platforms
+            But in Night City, dreams always demand blood.
           </p>
         </div>
       </div>

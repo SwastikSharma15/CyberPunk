@@ -149,22 +149,23 @@
 
   @media (min-width: 768px) {
     .hero-heading {
-      font-size: 8rem;
+      font-size: 6rem;
     }
   }
 
   @media (min-width: 1024px) {
     .hero-heading {
-      font-size: 12rem;
+      font-size: 10rem;
     }
   }
 
   .about-subtext {
     position: absolute;
-    bottom: -80dvh;
+    bottom: -100dvh;
     left: 50%;
     width: 100%;
-    max-width: 24rem;
+    max-width: 20rem;
+    padding: 0 1rem;
     transform: translateX(-50%);
     text-align: center;
     font-family: var(--font-family-circular-web);
@@ -172,9 +173,18 @@
     line-height: 1.75rem;
   }
 
+  @media (min-width: 640px) {
+    .about-subtext {
+      bottom: -95dvh;
+      max-width: 24rem;
+    }
+  }
+
   @media (min-width: 768px) {
     .about-subtext {
+      bottom: -80dvh; /* your original desktop spacing */
       max-width: 34rem;
+      padding: 0;
     }
   }
 
@@ -281,7 +291,7 @@
     width: 100%;
     height: 100%;
     overflow: hidden;
-    clip-path: polygon(4% 0, 83% 21%, 100% 73%, 0% 100%);
+    clip-path: polygon(4% 0, 83% 21%, 90% 73%, 0% 80%);
   }
 
   @media (min-width: 768px) {
@@ -354,11 +364,11 @@
   }
 
   .contact-clip-path-1 {
-    clip-path: polygon(25% 0%, 74% 0, 69% 64%, 34% 73%);
+    clip-path: polygon(15% 5%, 84% 0, 69% 64%, 14% 73%);
   }
 
   .contact-clip-path-2 {
-    clip-path: polygon(29% 15%, 85% 30%, 50% 100%, 10% 64%);
+    clip-path: polygon(19% 15%, 75% 5%, 80% 100%, 10% 84%);
   }
 }
 
