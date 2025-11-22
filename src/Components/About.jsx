@@ -8,6 +8,25 @@ gsap.registerPlugin(ScrollTrigger);
 const About = () => {
 
   useGSAP(() => {
+    // Refresh ScrollTrigger after images load
+    const images = document.querySelectorAll('img');
+    let imagesLoaded = 0;
+    
+    const checkAllImagesLoaded = () => {
+      imagesLoaded++;
+      if (imagesLoaded === images.length) {
+        ScrollTrigger.refresh();
+      }
+    };
+
+    images.forEach(img => {
+      if (img.complete) {
+        checkAllImagesLoaded();
+      } else {
+        img.addEventListener('load', checkAllImagesLoaded);
+      }
+    });
+
     const clipAnimation = gsap.timeline({
       scrollTrigger: {
         trigger: "#clip",
@@ -16,6 +35,7 @@ const About = () => {
         scrub: 0.5,
         pin: true,
         pinSpacing: true,
+        invalidateOnRefresh: true,
       },
     });
 
@@ -24,6 +44,11 @@ const About = () => {
       height: "100vh",
       borderRadius: 0,
     });
+
+    // Additional refresh after a short delay to ensure everything is rendered
+    setTimeout(() => {
+      ScrollTrigger.refresh();
+    }, 100);
   });
 
   return (
@@ -51,6 +76,7 @@ const About = () => {
         <div className="mask-clip-path about-image" >
           <img src="img/about.png" 
             alt="background"
+            loading="eager"
             className="absolute left-0 top-0 size-full object-cover" 
           />
         </div>
