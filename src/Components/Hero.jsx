@@ -24,15 +24,33 @@ const Hero = () => {
     setLoadedVideos((prev) => prev + 1);
   };
 
+  // Handle video errors
+  const handleVideoError = (e) => {
+    console.error("Video failed to load:", e.target.src);
+    // Still increment counter so loader doesn't hang
+    setLoadedVideos((prev) => prev + 1);
+  };
+
   useEffect(() => {
     if (loadedVideos === totalVideos - 1) {
       setLoading(false);
     }
   }, [loadedVideos]);
 
+  // Timeout fallback - force loading to stop after 5 seconds
+  useEffect(() => {
+    const timeout = setTimeout(() => {
+      if (loading) {
+        console.warn("Video loading timeout - forcing content display");
+        setLoading(false);
+      }
+    }, 5000); // 5 second timeout
+
+    return () => clearTimeout(timeout);
+  }, [loading]);
+
   const handleMiniVdClick = () => {
     setHasClicked(true);
-
     setCurrentIndex((prevIndex) => (prevIndex % totalVideos) + 1);
   };
 
@@ -115,6 +133,8 @@ const Hero = () => {
                   id="current-video"
                   className="size-64 origin-center scale-150 object-cover object-center"
                   onLoadedData={handleVideoLoad}
+                  onError={handleVideoError}
+                  preload="auto"
                 />
               </div>
             </VideoPreview>
@@ -144,6 +164,8 @@ const Hero = () => {
             id="next-video"
             className="absolute-center invisible absolute z-20 size-64 object-cover object-center"
             onLoadedData={handleVideoLoad}
+            onError={handleVideoError}
+            preload="auto"
           />
           <video
             src={getVideoSrc(
@@ -154,6 +176,8 @@ const Hero = () => {
             muted
             className="absolute left-0 top-0 size-full object-cover object-center"
             onLoadedData={handleVideoLoad}
+            onError={handleVideoError}
+            preload="auto"
           />
         </div>
 
