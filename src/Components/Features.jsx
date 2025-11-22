@@ -57,78 +57,83 @@ const BentoCard = ({ title, src, description }) => {
 
 const Features = () => {
   return (
-    <section className="bg-black pb-52">
+    <section id="prologue" className="bg-black pb-52">
       <div className="container mx-auto px-3 md:px-10">
         <div className="px-5 py-32">
           <p className="font-circular-web text-lg text-blue-50">
-            Into Metagame Layer
+            Into Night City’s Shadows
           </p>
           <p className="max-w-md font-circular-web text-lg text-blue-50 opacity-50">
-            Immerse yourself in a rich and ever-expanding universe where a
-            vibrant array of products converge into an interconnected overlay
-            experience on your world.
+            Step into a relentless world fueled by tech, betrayal, and survival—where every choice pulls you deeper into the chaos of the streets and the corps above.
           </p>
         </div>
         <BentoTilt className="border-hsla relative mb-7 h-96 w-full overflow-hidden rounded-md md:h-[65vh]">
           <BentoCard
-            src="videos/feature-1.mp4"
+            src="videos/feature-1.webm"
             title={
               <>
-                radia<b>n</b>t
+                <b>n</b>ight City
               </>
             }
-            description="A cross-platform metagame app, turning your activities across Web2 and Web3 games into a rewarding adventure."
+            description="A neon-soaked journey through Night City, where every upgrade costs more than chrome."
             isComingSoon={true}
           />
         </BentoTilt>
-        <div className="grid h-[135vh] w-full grid-cols-2 grid-rows-3 gap-7">
-          <BentoTilt className="bento-tilt_1 row-span-1 md:col-span-1 md:row-span-2">
+        <div className="grid w-full gap-7 grid-cols-1 md:h-[135vh] md:grid-cols-2 md:grid-rows-3">
+          <BentoTilt className="bento-tilt_1 h-[65vh] w-full md:h-auto md:col-span-1 md:row-span-2">
             <BentoCard
-              src="videos/feature-2.mp4"
+              src="videos/feature-2.webm"
               title={
                 <>
-                  zig<b>m</b>a
+                  meet l<b>u</b>cy
                 </>
               }
-              description="An anime and gaming-inspired NFT collection - the IP primed for expansion."
+              description="Lucy drifts through Night City with a guarded heart, balancing lethal skill with a quiet yearning to escape its grip."
               isComingSoon
             />
           </BentoTilt>
-          <BentoTilt className="bento-tilt_1 row-span-1 ms-32 md:col-span-1 md:ms-0">
+          <BentoTilt className="bento-tilt_1 w-10/12 h-[32vh] ml-auto md:h-auto md:col-span-1">
             <BentoCard
-              src="videos/feature-3.mp4"
+              src="videos/feature-3.webm"
               title={
                 <>
-                  n<b>e</b>xus
+                  e<b>d</b>ger<b>un</b>ners
                 </>
               }
-              description="A gamified social hub, adding a new dimension of play to social interaction for Web3 communities."
+              description="A crew of cyberpunks tearing through Night City’s chaos, chasing freedom in a system built to crush them."
               isComingSoon
             />
           </BentoTilt>
-          <BentoTilt className="bento-tilt_1 me-14 md:col-span-1 md:me-0 ">
+          <BentoTilt className="bento-tilt_1 w-10/12 h-[32vh] mr-auto md:h-auto md:col-span-1 ">
             <BentoCard
-              src="videos/feature-4.mp4"
+              src="videos/feature-4.webm"
               title={
                 <>
-                  az<b>u</b>l
+                  neon-so<b>a</b>ked beats
                 </>
               }
-              description="A cross-world AI Agent - elevating your gameplay to be more fun and productive."
+              description="A mix of synth, sorrow, and adrenaline that defines every moment in Night City."
               isComingSoon
             />
           </BentoTilt>
-          <BentoTilt className="bento-tilt_2">
-            <div className="flex size-full flex-col justify-between bg-violet-300 p-5">
-              <h1 className="bento-title special-font">
-                M<b>o</b>re Co<b>m</b>ing So<b>o</b>n!
+          <BentoTilt className="bento-tilt_2 h-[36vh] md:h-auto">
+            <div className="relative size-full flex flex-col justify-between p-5 bg-transparent">
+              <h1 className="absolute top-5 left-5 z-20 bento-title special-font text-[#ffff00]">
+                N<b>o</b>w <br /> strea<b>m</b>ing <br /> o<b>n</b>ly o<b>n</b> <br /> <b>n</b>etflix!
               </h1>
-              <TiLocationArrow className="m-5 scale-[5] self-end" />
+
+              <video
+                src="videos/feature-6.webm"
+                loop
+                muted
+                autoPlay
+                className="w-full h-auto mt-4 object-cover rounded-xl"
+              />
             </div>
           </BentoTilt>
-          <BentoTilt className="bento-tilt_2 ">
+          <BentoTilt className="bento-tilt_2 h-[36vh] md:h-auto ">
             <video
-              src="videos/feature-5.mp4"
+              src="videos/feature-5.webm"
               loop
               muted
               autoPlay
