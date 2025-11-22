@@ -199,6 +199,7 @@
     transform-origin: center;
     overflow: hidden;
     border-radius: 1.5rem;
+    aspect-ratio: 16 / 9;
   }
 
   @media (min-width: 768px) {
