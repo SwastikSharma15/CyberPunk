@@ -1,27 +1,27 @@
-import React, { useEffect } from 'react'
+import React, { useEffect, lazy, Suspense } from 'react'
 import gsap from 'gsap'
 import { ScrollTrigger } from 'gsap/all'
 import { Analytics } from '@vercel/analytics/react'
 import Hero from './Components/Hero'
-import About from './Components/About'
 import NavBar from './Components/NavBar'
-import Features from './Components/Features'
-import Story from './Components/Story'
-import Contact from './Components/Contact'
-import Footer from './Components/Footer'
+
+// Lazy load below-fold components
+const About = lazy(() => import('./Components/About'))
+const Features = lazy(() => import('./Components/Features'))
+const Story = lazy(() => import('./Components/Story'))
+const Contact = lazy(() => import('./Components/Contact'))
+const Footer = lazy(() => import('./Components/Footer'))
 
 gsap.registerPlugin(ScrollTrigger)
 
 const App = () => {
   useEffect(() => {
-    // Refresh ScrollTrigger when window is fully loaded
     const handleLoad = () => {
       ScrollTrigger.refresh()
     }
     
     window.addEventListener('load', handleLoad)
 
-    // Also refresh on resize (debounced)
     let resizeTimer
     const handleResize = () => {
       clearTimeout(resizeTimer)
@@ -32,7 +32,6 @@ const App = () => {
     
     window.addEventListener('resize', handleResize)
 
-    // Cleanup
     return () => {
       window.removeEventListener('load', handleLoad)
       window.removeEventListener('resize', handleResize)
@@ -43,11 +42,13 @@ const App = () => {
     <main className='relative min-h-screen w-screen overflow-x-hidden'>
       <NavBar />
       <Hero />
-      <About />
-      <Features />
-      <Story />
-      <Contact />
-      <Footer />
+      <Suspense fallback={null}>
+        <About />
+        <Features />
+        <Story />
+        <Contact />
+        <Footer />
+      </Suspense>
       <Analytics />
     </main>
   )

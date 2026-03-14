@@ -1,4 +1,4 @@
-import React, { useRef, useState } from "react";
+import React, { useRef, useState, useEffect } from "react";
 import { TiLocationArrow } from "react-icons/ti";
 
 const BentoTilt = ({children, className= ''}) => {
@@ -33,14 +33,54 @@ const BentoTilt = ({children, className= ''}) => {
   )
 }
 
+// Lazy video: only loads src when it enters the viewport
+const LazyVideo = ({ src, className, ...props }) => {
+  const videoRef = useRef(null);
+  const [inView, setInView] = useState(false);
+
+  useEffect(() => {
+    const el = videoRef.current;
+    if (!el) return;
+
+    const observer = new IntersectionObserver(
+      ([entry]) => {
+        if (entry.isIntersecting) {
+          setInView(true);
+          observer.disconnect();
+        }
+      },
+      { rootMargin: "200px" }
+    );
+
+    observer.observe(el);
+    return () => observer.disconnect();
+  }, []);
+
+  useEffect(() => {
+    if (inView && videoRef.current) {
+      videoRef.current.play().catch(() => {});
+    }
+  }, [inView]);
+
+  return (
+    <video
+      ref={videoRef}
+      src={inView ? src : undefined}
+      loop
+      muted
+      playsInline
+      preload="none"
+      className={className}
+      {...props}
+    />
+  );
+};
+
 const BentoCard = ({ title, src, description }) => {
   return (
     <div className="relative size-full">
-      <video
+      <LazyVideo
         src={src}
-        loop
-        muted
-        autoPlay
         className="absolute left-0 top-0 size-full object-cover object-center"
       />
       <div className="relative z-10 flex size-full flex-col justify-between p-5 text-blue-50">
@@ -122,21 +162,15 @@ const Features = () => {
                 N<b>o</b>w <br /> strea<b>m</b>ing <br /> o<b>n</b>ly o<b>n</b> <br /> <b>n</b>etflix!
               </h1>
 
-              <video
+              <LazyVideo
                 src="videos/feature-6.webm"
-                loop
-                muted
-                autoPlay
                 className="w-full h-auto mt-4 object-cover rounded-xl"
               />
             </div>
           </BentoTilt>
           <BentoTilt className="bento-tilt_2 h-[36vh] md:h-auto ">
-            <video
+            <LazyVideo
               src="videos/feature-5.webm"
-              loop
-              muted
-              autoPlay
               className="size-full object-cover object-center"
             />
           </BentoTilt>
