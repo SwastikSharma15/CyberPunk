@@ -14,7 +14,6 @@ const Hero = () => {
   const [hasClicked, setHasClicked] = useState(false);
   const [showHint, setShowHint] = useState(true);
   const [loading, setLoading] = useState(true);
-  const [loadedVideos, setLoadedVideos] = useState(0);
   const [videoFormat, setVideoFormat] = useState({});
   const [backgroundIndex, setBackgroundIndex] = useState(1);
 
@@ -28,44 +27,36 @@ const Hero = () => {
     return `videos/hero-${index}.${format}`;
   };
 
-  // Handle successful video load
-  const handleVideoLoad = (index) => {
-    setLoadedVideos((prev) => prev + 1);
+  // Only hide loader when the main background video (hero-1) is ready
+  const handleMainVideoLoad = () => {
+    setLoading(false);
   };
 
   // Handle video error with fallback to MP4
-  const handleVideoError = (e, index, videoRef) => {
+  const handleVideoError = (e, index, videoRef, isMain = false) => {
     const currentFormat = videoFormat[index] || 'webm';
     
     if (currentFormat === 'webm') {
-      console.warn(`WebM failed for video ${index}, trying MP4...`);
       setVideoFormat(prev => ({ ...prev, [index]: 'mp4' }));
-      
       if (videoRef && videoRef.current) {
         videoRef.current.src = getVideoSrc(index, 'mp4');
         videoRef.current.load();
       }
     } else {
       console.error(`Both formats failed for video ${index}`);
-      setLoadedVideos((prev) => prev + 1);
+      // If main video fails entirely, still remove loader
+      if (isMain) setLoading(false);
     }
   };
 
-  // Check if all videos are loaded
-  useEffect(() => {
-    if (loadedVideos === totalVideos - 1) {
-      setLoading(false);
-    }
-  }, [loadedVideos]);
-
-  // Force loading to stop after timeout
+  // Force loading to stop after timeout (safety net)
   useEffect(() => {
     const timeout = setTimeout(() => {
       if (loading) {
         console.warn("Video loading timeout - forcing content display");
         setLoading(false);
       }
-    }, 8000);
+    }, 10000);
 
     return () => clearTimeout(timeout);
   }, [loading]);
@@ -181,9 +172,8 @@ const Hero = () => {
                   playsInline
                   id="current-video"
                   className="size-64 origin-center scale-150 object-cover object-center"
-                  onLoadedData={() => handleVideoLoad((currentIndex % totalVideos) + 1)}
                   onError={(e) => handleVideoError(e, (currentIndex % totalVideos) + 1, miniVideoRef)}
-                  preload="auto"
+                  preload="none"
                 />
               </div>
             </VideoPreview>
@@ -211,9 +201,8 @@ const Hero = () => {
             playsInline
             id="next-video"
             className="absolute-center invisible absolute z-20 size-64 object-cover object-center"
-            onLoadedData={() => handleVideoLoad(currentIndex)}
             onError={(e) => handleVideoError(e, currentIndex, nextVdRef)}
-            preload="auto"
+            preload="none"
           />
 
           {/* Main Background Video */}
@@ -228,8 +217,8 @@ const Hero = () => {
             muted
             playsInline
             className="absolute left-0 top-0 size-full object-cover object-center"
-            onLoadedData={() => handleVideoLoad(backgroundIndex === totalVideos - 1 ? 1 : backgroundIndex)}
-            onError={(e) => handleVideoError(e, backgroundIndex === totalVideos - 1 ? 1 : backgroundIndex, mainVideoRef)}
+            onLoadedData={handleMainVideoLoad}
+            onError={(e) => handleVideoError(e, backgroundIndex === totalVideos - 1 ? 1 : backgroundIndex, mainVideoRef, true)}
             preload="auto"
           />
         </div>
