@@ -173,7 +173,7 @@ const Hero = () => {
                   id="current-video"
                   className="size-64 origin-center scale-150 object-cover object-center"
                   onError={(e) => handleVideoError(e, (currentIndex % totalVideos) + 1, miniVideoRef)}
-                  preload="none"
+                  preload="auto"
                 />
               </div>
             </VideoPreview>
@@ -202,7 +202,7 @@ const Hero = () => {
             id="next-video"
             className="absolute-center invisible absolute z-20 size-64 object-cover object-center"
             onError={(e) => handleVideoError(e, currentIndex, nextVdRef)}
-            preload="none"
+            preload="auto"
           />
 
           {/* Main Background Video */}
