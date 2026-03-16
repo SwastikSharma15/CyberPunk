@@ -118,7 +118,7 @@ const Hero = () => {
   // GSAP animation for scroll-triggered clip-path
   useGSAP(() => {
     gsap.set("#video-frame", {
-      clipPath: "polygon(14% 0, 72% 0, 88% 90%, 0 95%)",
+      clipPath: "polygon(14% 0, 72% 0, 88% 90%, 0 75%)",
       borderRadius: "0% 0% 40% 10%",
     });
     gsap.from("#video-frame", {
