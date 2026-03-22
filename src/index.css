@@ -1,5 +1,5 @@
-@import "tailwindcss";
 @import url("https://fonts.cdnfonts.com/css/general-sans");
+@import "tailwindcss";
 
 /* 1️⃣ Theme definition for Tailwind v4 */
 @theme {
