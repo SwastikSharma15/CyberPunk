@@ -49,18 +49,7 @@ const Hero = () => {
     }
   };
 
-  // Force loading to stop after timeout (safety net)
-  useEffect(() => {
-    const timeout = setTimeout(() => {
-      if (loading) {
-        console.warn("Video loading timeout - forcing content display");
-        setLoading(false);
-      }
-    }, 10000);
-
-    return () => clearTimeout(timeout);
-  }, [loading]);
-
+  // Remove the safety net timeout so loader STAYS until onCanPlayThrough occurs
   // Preload and start playing the next video when it changes
   useEffect(() => {
     if (nextVdRef.current && !loading) {
@@ -217,7 +206,7 @@ const Hero = () => {
             muted
             playsInline
             className="absolute left-0 top-0 size-full object-cover object-center"
-            onLoadedData={handleMainVideoLoad}
+            onCanPlayThrough={handleMainVideoLoad}
             onError={(e) => handleVideoError(e, backgroundIndex === totalVideos - 1 ? 1 : backgroundIndex, mainVideoRef, true)}
             preload="auto"
           />
