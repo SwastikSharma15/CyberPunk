@@ -33,28 +33,10 @@ const BentoTilt = ({children, className= ''}) => {
   )
 }
 
-// Lazy video: only loads src when it enters the viewport or background preloads after initial page load
+// Lazy video: only loads src when it enters the viewport
 const LazyVideo = ({ src, className, ...props }) => {
   const videoRef = useRef(null);
   const [inView, setInView] = useState(false);
-  const [hasLoaded, setHasLoaded] = useState(false);
-
-  // Background preload implementation to improve UX without blocking initial load
-  useEffect(() => {
-    const onPageLoad = () => {
-      // Preload videos shortly after the page finishes initial loading
-      setTimeout(() => {
-        setHasLoaded(true);
-      }, 1500);
-    };
-
-    if (document.readyState === 'complete') {
-      onPageLoad();
-    } else {
-      window.addEventListener('load', onPageLoad);
-      return () => window.removeEventListener('load', onPageLoad);
-    }
-  }, []);
 
   useEffect(() => {
     const el = videoRef.current;
@@ -83,11 +65,11 @@ const LazyVideo = ({ src, className, ...props }) => {
   return (
     <video
       ref={videoRef}
-      src={hasLoaded || inView ? src : undefined}
+      src={inView ? src : undefined}
       loop
       muted
       playsInline
-      preload={hasLoaded || inView ? "auto" : "none"}
+      preload={inView ? "auto" : "none"}
       className={className}
       {...props}
     />

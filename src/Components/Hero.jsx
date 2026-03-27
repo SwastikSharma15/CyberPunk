@@ -152,10 +152,10 @@ const Hero = () => {
               >
                 <video
                   ref={miniVideoRef}
-                  src={getVideoSrc(
+                  src={!loading ? getVideoSrc(
                     (currentIndex % totalVideos) + 1,
                     videoFormat[(currentIndex % totalVideos) + 1] || 'webm'
-                  )}
+                  ) : undefined}
                   loop
                   muted
                   playsInline
@@ -184,7 +184,7 @@ const Hero = () => {
           {/* Next Video (Hidden, for transition) - Pre-playing */}
           <video
             ref={nextVdRef}
-            src={getVideoSrc(currentIndex, videoFormat[currentIndex] || 'webm')}
+            src={!loading ? getVideoSrc(currentIndex, videoFormat[currentIndex] || 'webm') : undefined}
             loop
             muted
             playsInline
