@@ -1,7 +1,7 @@
 import { useRef, useEffect } from 'react';
 import { gsap } from 'gsap';
 
-const Button = ({ title, id, rightIcon, leftIcon, containerClass }) => {
+const Button = ({ title, id, rightIcon, leftIcon, containerClass, onClick }) => {
   const textTopRef = useRef(null);
   const textBottomRef = useRef(null);
   const buttonRef = useRef(null);
@@ -82,6 +82,7 @@ const Button = ({ title, id, rightIcon, leftIcon, containerClass }) => {
     <button
       id={id}
       ref={buttonRef}
+      onClick={onClick}
       className={`group relative z-10 w-fit cursor-pointer overflow-hidden rounded-full bg-violet-50 px-7 py-3 text-black ${containerClass}`}
     >
       {leftIcon}
