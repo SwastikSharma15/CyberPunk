@@ -49,17 +49,21 @@ const Hero = () => {
     }
   };
 
-  // Remove the safety net timeout so loader STAYS until onCanPlayThrough occurs
-  // Preload and start playing the next video when it changes
+  // Start playing mini + next videos once main video is ready
   useEffect(() => {
-    if (nextVdRef.current && !loading) {
-      nextVdRef.current.currentTime = 0;
-      nextVdRef.current.play().catch(err => {
-        if (err.name !== 'AbortError') {
-          console.warn("Video preload play failed:", err);
-        }
-      });
-    }
+    if (loading) return;
+
+    const tryPlay = (ref) => {
+      if (ref.current) {
+        ref.current.currentTime = 0;
+        ref.current.play().catch(err => {
+          if (err.name !== 'AbortError') console.warn("Video play failed:", err);
+        });
+      }
+    };
+
+    tryPlay(miniVideoRef);
+    tryPlay(nextVdRef);
   }, [currentIndex, loading]);
 
   // Handle mini video click
@@ -158,11 +162,12 @@ const Hero = () => {
                   ) : undefined}
                   loop
                   muted
+                  autoPlay
                   playsInline
                   id="current-video"
                   className="size-64 origin-center scale-150 object-cover object-center"
                   onError={(e) => handleVideoError(e, (currentIndex % totalVideos) + 1, miniVideoRef)}
-                  preload="auto"
+                  preload="metadata"
                 />
               </div>
             </VideoPreview>
@@ -191,7 +196,7 @@ const Hero = () => {
             id="next-video"
             className="absolute-center invisible absolute z-20 size-64 object-cover object-center"
             onError={(e) => handleVideoError(e, currentIndex, nextVdRef)}
-            preload="auto"
+            preload="none"
           />
 
           {/* Main Background Video */}
