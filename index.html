@@ -27,9 +27,8 @@
     <meta name="msapplication-TileColor" content="#0f0f0f" />
     
     <link rel="icon" type="image/svg+xml" href="/img/favicon.png" />
-    <!-- Prefetch hero-1 video for faster playback -->
-    <link rel="prefetch" href="/videos/hero-1.webm" type="video/webm" />
-    <link rel="prefetch" href="/videos/hero-1.mp4" type="video/mp4" />
+    <!-- Preload only the critical hero video -->
+    <link rel="preload" href="/videos/hero-1.webm" as="video" type="video/webm" />
     <!-- Preconnect for external fonts -->
     <link rel="preconnect" href="https://fonts.cdnfonts.com" crossorigin />
     <title>Cyberpunk Edgerunners</title>

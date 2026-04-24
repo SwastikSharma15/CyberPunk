@@ -4,6 +4,7 @@ import { ScrollTrigger } from 'gsap/all'
 import { Analytics } from '@vercel/analytics/react'
 import Hero from './Components/Hero'
 import NavBar from './Components/NavBar'
+import FeedbackBtn from './Components/FeedbackBtn'
 
 // Lazy load below-fold components
 const About = lazy(() => import('./Components/About'))
@@ -50,6 +51,7 @@ const App = () => {
         <Footer />
       </Suspense>
       <Analytics />
+      <FeedbackBtn />
     </main>
   )
 }
