@@ -6,6 +6,7 @@ import { useEffect, useRef, useState } from "react";
 
 import Button from "./Button";
 import VideoPreview from "./VideoPreview";
+import Loader from "./Loader";
 
 gsap.registerPlugin(ScrollTrigger);
 
@@ -14,6 +15,8 @@ const Hero = () => {
   const [hasClicked, setHasClicked] = useState(false);
   const [showHint, setShowHint] = useState(true);
   const [loading, setLoading] = useState(true);
+  const [loadedVideos, setLoadedVideos] = useState(0);
+  const [minTimePassed, setMinTimePassed] = useState(false);
   const [videoFormat, setVideoFormat] = useState({});
   const [backgroundIndex, setBackgroundIndex] = useState(1);
 
@@ -27,10 +30,38 @@ const Hero = () => {
     return `videos/hero-${index}.${format}`;
   };
 
-  // Only hide loader when the main background video (hero-1) is ready
-  const handleMainVideoLoad = () => {
-    setLoading(false);
+  // Hide loader when both main background video and mini video are ready, AND min time passed
+  const handleVideoLoad = () => {
+    setLoadedVideos((prev) => prev + 1);
   };
+
+  useEffect(() => {
+    const timer = setTimeout(() => {
+      setMinTimePassed(true);
+    }, 3000);
+    return () => clearTimeout(timer);
+  }, []);
+
+  const isLoaded = loadedVideos >= 2 && minTimePassed;
+
+  useEffect(() => {
+    let playTimer;
+    if (isLoaded && mainVideoRef.current) {
+      // Delay play until slide-up animation is exactly halfway through
+      // (0.2s delay + 0.6s half of the 1.2s duration = 800ms)
+      playTimer = setTimeout(() => {
+        if (mainVideoRef.current) {
+          mainVideoRef.current.play().catch(err => {
+            if (err.name !== 'AbortError') console.warn("Video play failed:", err);
+          });
+        }
+      }, 800);
+    }
+    return () => clearTimeout(playTimer);
+  }, [isLoaded]);
+
+  // The Loader component now handles its own exit animation 
+  // and will call setLoading(false) via onComplete when finished.
 
   // Handle video error with fallback to MP4
   const handleVideoError = (e, index, videoRef, isMain = false) => {
@@ -131,13 +162,10 @@ const Hero = () => {
     <div id="hero" className="relative h-dvh w-screen overflow-x-hidden">
       {/* Loading Screen */}
       {loading && (
-        <div className="flex-center absolute z-100 h-dvh w-screen overflow-hidden bg-violet-50">
-          <div className="three-body">
-            <div className="three-body__dot"></div>
-            <div className="three-body__dot"></div>
-            <div className="three-body__dot"></div>
-          </div>
-        </div>
+        <Loader
+          isLoaded={isLoaded}
+          onComplete={() => setLoading(false)}
+        />
       )}
 
       {/* Main Video Frame */}
@@ -156,10 +184,10 @@ const Hero = () => {
               >
                 <video
                   ref={miniVideoRef}
-                  src={!loading ? getVideoSrc(
+                  src={getVideoSrc(
                     (currentIndex % totalVideos) + 1,
                     videoFormat[(currentIndex % totalVideos) + 1] || 'webm'
-                  ) : undefined}
+                  )}
                   loop
                   muted
                   autoPlay
@@ -167,7 +195,8 @@ const Hero = () => {
                   id="current-video"
                   className="size-64 origin-center scale-150 object-cover object-center"
                   onError={(e) => handleVideoError(e, (currentIndex % totalVideos) + 1, miniVideoRef)}
-                  preload="metadata"
+                  onLoadedData={handleVideoLoad}
+                  preload="auto"
                 />
               </div>
             </VideoPreview>
@@ -206,12 +235,11 @@ const Hero = () => {
               backgroundIndex === totalVideos - 1 ? 1 : backgroundIndex,
               videoFormat[backgroundIndex === totalVideos - 1 ? 1 : backgroundIndex] || 'webm'
             )}
-            autoPlay
             loop
             muted
             playsInline
             className="absolute left-0 top-0 size-full object-cover object-center"
-            onCanPlayThrough={handleMainVideoLoad}
+            onLoadedData={handleVideoLoad}
             onError={(e) => handleVideoError(e, backgroundIndex === totalVideos - 1 ? 1 : backgroundIndex, mainVideoRef, true)}
             preload="auto"
           />
