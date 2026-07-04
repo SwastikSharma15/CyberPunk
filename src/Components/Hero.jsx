@@ -66,7 +66,7 @@ const Hero = () => {
   // Handle video error with fallback to MP4
   const handleVideoError = (e, index, videoRef, isMain = false) => {
     const currentFormat = videoFormat[index] || 'webm';
-    
+
     if (currentFormat === 'webm') {
       setVideoFormat(prev => ({ ...prev, [index]: 'mp4' }));
       if (videoRef && videoRef.current) {
@@ -93,7 +93,8 @@ const Hero = () => {
       }
     };
 
-    tryPlay(miniVideoRef);
+    // Prevent mini video from autoplaying programmatically
+    // tryPlay(miniVideoRef);
     tryPlay(nextVdRef);
   }, [currentIndex, loading]);
 
@@ -109,7 +110,7 @@ const Hero = () => {
     () => {
       if (hasClicked) {
         gsap.set("#next-video", { visibility: "visible" });
-        
+
         // Animate the next video expanding to full screen
         gsap.to("#next-video", {
           transformOrigin: "center center",
@@ -123,7 +124,7 @@ const Hero = () => {
             setBackgroundIndex(currentIndex);
           }
         });
-        
+
         // Animate the mini video shrinking
         gsap.from("#current-video", {
           transformOrigin: "center center",
@@ -190,7 +191,6 @@ const Hero = () => {
                   )}
                   loop
                   muted
-                  autoPlay
                   playsInline
                   id="current-video"
                   className="size-64 origin-center scale-150 object-cover object-center"
@@ -280,30 +280,30 @@ const Hero = () => {
 
       {/* Heading Outside Frame */}
       <div className="absolute left-0 top-0 z-0 size-full">
-          <div className="mt-24 px-5 sm:px-10">
-            <h1 className="special-font hero-heading text-black">
-              c<b>y</b>berp<b>u</b>nk
-            </h1>
+        <div className="mt-24 px-5 sm:px-10">
+          <h1 className="special-font hero-heading text-black">
+            c<b>y</b>berp<b>u</b>nk
+          </h1>
 
-            <p className="mb-5 max-w-64 font-robert-regular text-black">
-              Live loud. <br /> Die legendary.
-            </p>
+          <p className="mb-5 max-w-64 font-robert-regular text-black">
+            Live loud. <br /> Die legendary.
+          </p>
 
-            <a
-              href="https://www.youtube.com/watch?v=JtqIas3bYhg&t=28s"
-              target="_blank"
-              rel="noopener noreferrer"
-              className="inline-block"
-            >
-              <Button
-                id="watch-trailer"
-                title="Watch trailer"
-                leftIcon={<TiLocationArrow />}
-                containerClass="bg-black flex-center gap-1"
-              />
-            </a>
-          </div>
+          <a
+            href="https://www.youtube.com/watch?v=JtqIas3bYhg&t=28s"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="inline-block"
+          >
+            <Button
+              id="watch-trailer"
+              title="Watch trailer"
+              leftIcon={<TiLocationArrow />}
+              containerClass="bg-black flex-center gap-1"
+            />
+          </a>
         </div>
+      </div>
       <h1 className="special-font hero-heading absolute bottom-5 right-5 text-black">
         e<b>d</b>ger<b>un</b>ners
       </h1>

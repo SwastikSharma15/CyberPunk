@@ -23,6 +23,22 @@ const FeedbackBtn = () => {
   const [submitting, setSubmitting] = useState(false);
   const [result, setResult] = useState(null); // { success, msg }
 
+  const [isVisible, setIsVisible] = useState(false);
+  const [showPopupText, setShowPopupText] = useState(false);
+
+  useEffect(() => {
+    const showTimer = setTimeout(() => {
+      setIsVisible(true);
+      setShowPopupText(true);
+
+      setTimeout(() => {
+        setShowPopupText(false);
+      }, 20000);
+    }, 20000);
+
+    return () => clearTimeout(showTimer);
+  }, []);
+
   const overlayRef = useRef(null);
   const modalRef = useRef(null);
 
@@ -125,7 +141,21 @@ const FeedbackBtn = () => {
   return (
     <>
       {/* Floating trigger button */}
-      <div className="fixed bottom-6 right-6 z-40">
+      <div
+        className={`fixed bottom-6 right-6 z-40 flex items-center gap-3 transition-all duration-700 ease-in-out ${isVisible ? "translate-y-0 opacity-100" : "translate-y-10 opacity-0 pointer-events-none"
+          }`}
+      >
+        <div
+          className={`relative rounded-lg border border-yellow-300/30 bg-black/90 px-4 py-3 backdrop-blur-md transition-all duration-700 shadow-[0_0_15px_rgba(253,224,71,0.2)] ${showPopupText
+            ? "opacity-100 translate-x-0"
+            : "opacity-0 translate-x-4 pointer-events-none"
+            } hidden sm:block`}
+        >
+          <p className="font-general text-xs uppercase tracking-widest text-yellow-100">
+            How's the Night City?
+          </p>
+          <div className="absolute top-1/2 -right-1.5 mt-[-6px] border-[6px] border-transparent border-l-yellow-300/30"></div>
+        </div>
         <Button
           id="feedback-btn"
           title="Feedback"
@@ -182,9 +212,8 @@ const FeedbackBtn = () => {
                   <select
                     value={category}
                     onChange={(e) => setCategory(e.target.value)}
-                    className={`w-full appearance-none rounded-xl border border-white/10 bg-white/5 px-4 py-2.5 pr-10 font-general text-sm outline-none transition-colors focus:border-yellow-300/60 ${
-                      category ? "text-blue-50" : "text-blue-50/30"
-                    }`}
+                    className={`w-full appearance-none rounded-xl border border-white/10 bg-white/5 px-4 py-2.5 pr-10 font-general text-sm outline-none transition-colors focus:border-yellow-300/60 ${category ? "text-blue-50" : "text-blue-50/30"
+                      }`}
                   >
                     <option value="" className="bg-black text-blue-50/50">Select category</option>
                     {CATEGORIES.map((c) => (
@@ -210,13 +239,12 @@ const FeedbackBtn = () => {
                 {/* Result message */}
                 {result && (
                   <div
-                    className={`rounded-xl border px-4 py-2.5 font-general text-sm ${
-                      result.success
-                        ? "border-yellow-300/30 bg-yellow-300/10 text-yellow-300"
-                        : result.success === null
+                    className={`rounded-xl border px-4 py-2.5 font-general text-sm ${result.success
+                      ? "border-yellow-300/30 bg-yellow-300/10 text-yellow-300"
+                      : result.success === null
                         ? "border-white/10 bg-white/5 text-blue-50/60"
                         : "border-red-500/20 bg-red-500/10 text-red-400"
-                    }`}
+                      }`}
                   >
                     {result.msg}
                   </div>
