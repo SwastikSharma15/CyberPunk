@@ -15,6 +15,7 @@ export default defineConfig({
           vendor: ['react', 'react-dom'],
           gsap: ['gsap', '@gsap/react'],
           icons: ['react-icons'],
+          lenis: ['lenis'],
         },
       },
     },

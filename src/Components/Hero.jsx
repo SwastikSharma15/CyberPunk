@@ -196,7 +196,7 @@ const Hero = () => {
                   className="size-64 origin-center scale-150 object-cover object-center"
                   onError={(e) => handleVideoError(e, (currentIndex % totalVideos) + 1, miniVideoRef)}
                   onLoadedData={handleVideoLoad}
-                  preload="auto"
+                  preload="metadata"
                 />
               </div>
             </VideoPreview>

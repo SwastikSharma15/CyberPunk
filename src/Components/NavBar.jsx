@@ -108,6 +108,8 @@ const NavBar = () => {
               <img 
                 src="/img/logo.jpg" 
                 alt="logo" 
+                width="32" 
+                height="32" 
                 className="w-10 rounded-full cursor-pointer"
               />
             </a>
